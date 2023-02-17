@@ -20,7 +20,7 @@ const getAdminBoard = () => {
 };
 
 const getAllUsers = () => {
-    return axios.get(API_URL, { headers: authHeader() });
+    return axios.get(API_URL + '/users', { headers: authHeader() });
 }
 
 export default {
