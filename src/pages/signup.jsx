@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
 import { register } from '../actions/auth';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -32,12 +33,17 @@ const theme = createTheme();
 
 export default function SignUp() {
   const dispatch = useDispatch()
+  let navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    dispatch(register(data.get('name'), data.get('email'), data.get('password')))
+    dispatch(
+      register(data.get('name'), data.get('email'), data.get('password'))
+      ).then(response => {
+        navigate('/')
+      })
   };
 
   return (
