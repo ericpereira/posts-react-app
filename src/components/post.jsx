@@ -1,8 +1,5 @@
 import React from 'react'
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ChatIcon from '@mui/icons-material/Chat';
-import { ThumbDown, ThumbDownAlt } from '@mui/icons-material';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import { Avatar, Grid, IconButton, Paper } from '@mui/material';
@@ -10,13 +7,22 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import getCurrentUser from '../utils/common';
+import { removePost } from '../actions/post';
 
 const Post = (props) => {
     const { id, title, description, user_id, created_at, likes, unlikes, views, comments } = props
     
     const users = useSelector(state => state.user.users)
     const user = users?.filter(s => s.id === user_id)[0]
+    const currentUser = getCurrentUser()
+    const dispatch = useDispatch()
+
+
+    const handleRemovePost = () => {
+        dispatch(removePost(id))
+    }
 
     return (
         <Grid item xs={12}>
@@ -30,12 +36,15 @@ const Post = (props) => {
                         </Grid>
                     </Grid>
                 <Grid>
-                    <IconButton color="inherit">
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton color="inherit">
-                        <DeleteIcon />
-                    </IconButton>
+                    {currentUser?.id === user?.id && <>
+                        <IconButton color="inherit">
+                            <EditIcon />
+                        </IconButton>
+                        <IconButton color="inherit">
+                            <DeleteIcon onClick={() => handleRemovePost()} />
+                        </IconButton>
+                    </>}
+                    
                 </Grid>                    
                 </Grid>
                 

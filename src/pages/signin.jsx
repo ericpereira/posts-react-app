@@ -12,31 +12,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { isEmail } from "validator";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { login } from '../actions/auth';
-
-const required = value => {
-    if (!value) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          This field is required!
-        </div>
-      );
-    }
-  };
   
-const validEmail = value => {
-  if (!isEmail(value)) {
-      return (
-      <div className="alert alert-danger" role="alert">
-          This is not a valid email.
-      </div>
-      );
-  }
-};
 
 function Copyright(props) {
   return (
@@ -58,7 +38,6 @@ export default function SignIn() {
 
   const [email, setEmail] = React.useState()
   const [password, setPassword] = React.useState()
-  const [loading, setLoading] = React.useState(false);
 
   const { isLoggedIn } = useSelector(state => state.auth);
 
@@ -76,9 +55,6 @@ export default function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    
-    setLoading(true);
 
     dispatch(login(email, password))
       .then(() => {
@@ -86,7 +62,7 @@ export default function SignIn() {
         window.location.reload();
       })
       .catch(() => {
-        setLoading(false);
+        
       });
   };
 
@@ -124,7 +100,6 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-              validations={[required, email]}
               onChange={onChangeEmail}
             />
             <TextField
@@ -157,7 +132,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

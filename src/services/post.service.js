@@ -11,7 +11,14 @@ const registerPost = (title, description) => {
     return axios.post(API_URL + '/posts', { title, description }, { headers: authHeader() });
 }
 
-export default {
+const deletePost = (id) => {
+    return axios.delete(API_URL + '/posts/' + id, { headers: authHeader() });
+}
+
+const PostService = {
     getAllPosts,
-    registerPost
-};
+    registerPost,
+    deletePost
+}
+
+export default PostService
