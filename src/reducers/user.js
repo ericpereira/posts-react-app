@@ -4,7 +4,7 @@ const initialState = {
     users: []
 };
 
-export default function (state = initialState, action) {
+export default function user(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {

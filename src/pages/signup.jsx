@@ -38,11 +38,6 @@ export default function SignUp() {
     const data = new FormData(event.currentTarget);
 
     dispatch(register(data.get('name'), data.get('email'), data.get('password')))
-    console.log({
-      name: data.get('name'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
   };
 
   return (

@@ -9,14 +9,11 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link as LinkRouter } from "react-router-dom";
@@ -26,9 +23,7 @@ import Post from '../../components/post';
 import { setPosts } from '../../actions/post';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsers } from '../../actions/user';
-import getCurrentUser from '../../utils/common';
-import { Button, TextField } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
+import { getCurrentUser } from '../../utils/common';
 import PostInput from '../../components/postInput';
 
 function Copyright(props) {
@@ -110,7 +105,7 @@ function DashboardContent() {
       .then(() => {
         //set is loading to false
       })
-  }, [])
+  }, [dispatch])
   
 
   const posts = useSelector(state => state.post.posts)
@@ -159,7 +154,7 @@ function DashboardContent() {
             >
               {currentUser.name}
             </Typography>
-            <LinkRouter to='/profile'>
+            <LinkRouter to='/'>
               <IconButton color="inherit">
                   <AccountCircleIcon style={{ color: '#fff' }} />
               </IconButton>
