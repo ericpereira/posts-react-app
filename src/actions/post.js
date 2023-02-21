@@ -36,7 +36,35 @@ export const insertPost = (title, description) => (dispatch) => {
 export const removePost = (id) => (dispatch) => {
   return PostService.deletePost(id).then(
     (data) => {
-      dispatch(setPosts()); //after insert a new post, reload the post list
+      dispatch(setPosts()); //after delete a post, reload the post list
+      return Promise.resolve();
+    },
+    (error) => {
+      //do something if had error when try to retrieve posts
+
+      return Promise.reject();
+    }
+  );
+};
+
+export const removeComment = (comment_id, post_id) => (dispatch) => {
+  return PostService.deleteComment(comment_id).then(
+    (data) => {
+      dispatch(getCommentsPost(post_id)); //after insert a new comment, reload the commentsPost list
+      return Promise.resolve();
+    },
+    (error) => {
+      //do something if had error when try to retrieve posts
+
+      return Promise.reject();
+    }
+  );
+};
+
+export const updatePost = (id, data) => (dispatch) => {
+  return PostService.updatePost(id, data).then(
+    (data) => {
+      dispatch(setPosts()); //after update a post, reload the post list
       return Promise.resolve();
     },
     (error) => {
@@ -103,6 +131,20 @@ export const registerComment = (id, description) => (dispatch) => {
     },
     (error) => {
       //do something if had error when try to retrieve comments
+
+      return Promise.reject();
+    }
+  );
+};
+
+export const updateComment = (comment_id, post_id, data) => (dispatch) => {
+  return PostService.updateComment(comment_id, data).then(
+    (data) => {
+      dispatch(getCommentsPost(post_id)); //after update a comment, reload the commentsPost list
+      return Promise.resolve();
+    },
+    (error) => {
+      //do something if had error when try to retrieve posts
 
       return Promise.reject();
     }

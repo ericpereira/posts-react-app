@@ -31,14 +31,29 @@ const deletePost = (id) => {
     return axios.delete(API_URL + '/posts/' + id, { headers: authHeader() });
 }
 
+const deleteComment = (id) => {
+    return axios.post(API_URL + '/comments/' + id + '/remove', {}, { headers: authHeader() });
+}
+
+const updatePost = (id, data) => {
+    return axios.patch(API_URL + '/posts/' + id, {...data}, { headers: authHeader() });
+}
+
+const updateComment = (id, data) => {
+    return axios.patch(API_URL + '/comments/' + id, {...data}, { headers: authHeader() });
+}
+
 const PostService = {
     getAllPosts,
     registerPost,
+    updatePost,
     likePost,
-    unlikePost,
+    unlikePost,    
+    deletePost,
     getCommentsPost,
     registerComment,
-    deletePost
+    updateComment,
+    deleteComment
 }
 
 export default PostService

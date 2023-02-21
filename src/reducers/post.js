@@ -10,7 +10,7 @@ export default function post(state = initialState, action) {
 
   switch (type) {
     case SET_POSTS:
-      return { posts: payload.data.posts }
+      return { ...state, posts: payload.data.posts }
     case SET_COMMENTS:
       //if already has the comments of this post, remove and add the updated comments to array
       let newComments = []

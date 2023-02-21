@@ -27,10 +27,10 @@ const PostInput = (props) => {
         <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 <Grid direction='column' container>
-                    <Grid md={12} style={{ marginBottom: '15px' }}>
+                    <Grid item md={12} style={{ marginBottom: '15px' }}>
                         <TextField id="outlined-basic" label="Título da Postagem" variant="outlined" fullWidth value={title} onChange={handleSetTitle} />
                     </Grid>
-                    <Grid md={12}>                            
+                    <Grid item md={12}>                            
                         <TextField style={{ marginBottom: '15px' }}
                             id="outlined-multiline-static"
                             label="Escreva algo interessante..."
@@ -45,11 +45,8 @@ const PostInput = (props) => {
                         <Button onClick={() => handleSubmitPost()} variant="contained" size="medium" endIcon={<SendIcon />}>
                             Postar
                         </Button>
-                    </Grid>
-
-                    
+                    </Grid>                    
                 </Grid>
-                
             </Paper>
         </Grid>
     )

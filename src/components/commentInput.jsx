@@ -21,7 +21,7 @@ const CommentInput = (props) => {
     return (
         <Grid item xs={12}>
             <Grid direction='column' container>
-                <Grid md={12}>                            
+                <Grid item md={12}>                            
                     <TextField style={{ marginBottom: '15px' }}
                         id="outlined-multiline-static"
                         label="Escreva algo interessante..."

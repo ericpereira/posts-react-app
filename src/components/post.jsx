@@ -1,21 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
-import { Avatar, CardContent, Collapse, Grid, IconButton, Paper, } from '@mui/material';
+import { Avatar, Button, CardContent, Collapse, Grid, IconButton, Paper, TextField, } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '../utils/common';
-import { getCommentsPost, likePost, removePost, unlikePost } from '../actions/post';
+import { getCommentsPost, likePost, removePost, unlikePost, updatePost } from '../actions/post';
 import CommentInput from './commentInput';
 import Comment from './comment';
+import SendIcon from '@mui/icons-material/Send'
+
 
 const Post = (props) => {
     const { id, title, description, user_id, created_at, likes, unlikes, views, comments } = props
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false)
+    const [edit, setEdit] = useState(false)
+    const [currentTitle, setCurrentTitle] = useState(title)
+    const [currentDescription, setCurrentDescription] = useState(description)
     
     const users = useSelector(state => state.user.users)
     const user = users?.filter(s => s.id === user_id)[0]
@@ -46,6 +51,23 @@ const Post = (props) => {
         dispatch(removePost(id))
     }
 
+    const handleChangeDescription = (event) => {
+        setCurrentDescription(event.target.value)
+    }
+
+    const handleChangeTitle = (event) => {
+        setCurrentTitle(event.target.value)
+    }
+
+    const handleEditPost = () => {
+        setEdit(!edit)
+    }
+
+    const handleSubmitPost = () => {
+       dispatch(updatePost(id, { title: currentTitle, description: currentDescription }))
+       setEdit(false)
+    }
+
     return (
         <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
@@ -59,19 +81,33 @@ const Post = (props) => {
                     </Grid>
                     <Grid>
                         {currentUser?.id === user?.id && <>
-                            <IconButton color="inherit">
+                            <IconButton color="inherit" onClick={() => handleEditPost()}>
                                 <EditIcon />
                             </IconButton>
-                            <IconButton color="inherit">
-                                <DeleteIcon onClick={() => handleRemovePost()} />
+                            <IconButton color="inherit" onClick={() => handleRemovePost()} >
+                                <DeleteIcon />
                             </IconButton>
                         </>}
                         
                     </Grid>                    
                 </Grid>
+                { edit ? <TextField id="outlined-basic" label="Título da Postagem" variant="outlined" fullWidth value={currentTitle} onChange={handleChangeTitle} style={{ marginBottom: '15px', marginTop: '15px' }} />
+                    : <h3 style={{ marginBottom: 0 }}>{title}</h3>}
+                { edit ? <TextField style={{ marginBottom: '15px' }}
+                            id="outlined-multiline-static"
+                            label="Escreva algo interessante..."
+                            multiline
+                            rows={4}
+                            fullWidth
+                            value={currentDescription}
+                            onChange={handleChangeDescription}
+                        /> : <p>{description}</p> }
+                { edit && <Grid container alignItems='flex-end' alignContent='flex-end' justifyItems='flex-end' justifyContent='flex-end'>
+                    <Button onClick={() => handleSubmitPost()} variant="contained" size="medium" endIcon={<SendIcon />}>
+                        Editar
+                    </Button>
+                </Grid> }
                 
-                <h3 style={{ marginBottom: 0 }}>{title}</h3>
-                <p>{description}</p>
                 <Grid container>
                     <Grid item style={{ display: 'flex', alignItems: 'center', padding: '5px', marginRight: '10px'}}>
                         <span style={{ marginRight: '10px' }}>{views}</span>
