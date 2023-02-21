@@ -33,4 +33,4 @@ Fill the dotenv with the API url or use http://localhost:5555 (if you are using 
 
 ## Online Demo
 
-- Open the (link)[https://posts-react-app.herokuapp.com]
+- Open the link https://posts-react-app.herokuapp.com
