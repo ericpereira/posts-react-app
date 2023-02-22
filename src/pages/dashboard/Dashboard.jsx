@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -16,14 +16,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems, secondaryListItems } from './listItems';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link as LinkRouter } from "react-router-dom";
+import { Link as LinkRouter, useNavigate } from "react-router-dom";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import Post from '../../components/post';
 import { setPosts } from '../../actions/post';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsers } from '../../actions/user';
-import { getCurrentUser } from '../../utils/common';
+import { detectInvalidToken, getCurrentUser } from '../../utils/common';
 import PostInput from '../../components/postInput';
 
 function Copyright(props) {
@@ -88,7 +88,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(false)
+  const navigate = useNavigate()
+  useEffect(() => { detectInvalidToken(navigate) }, [navigate])
+  
+
+  const [open, setOpen] = useState(false)
   const currentUser = getCurrentUser()
 
   const toggleDrawer = () => {
@@ -96,7 +100,7 @@ function DashboardContent() {
   };
   const dispatch = useDispatch()
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setPosts())
       .then(() => {
         //set is loading to false

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,8 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
-import { register } from '../actions/auth';
+import { login, register } from '../actions/auth';
 import { useNavigate } from 'react-router-dom';
+import { Alert } from '@mui/material';
 
 function Copyright(props) {
   return (
@@ -34,6 +35,7 @@ const theme = createTheme();
 export default function SignUp() {
   const dispatch = useDispatch()
   let navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState()
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -42,7 +44,14 @@ export default function SignUp() {
     dispatch(
       register(data.get('name'), data.get('email'), data.get('password'))
       ).then(response => {
-        navigate('/')
+        //login user and redirect to dashboard
+        dispatch(login(data.get('email'), data.get('password')))
+          .then(() => {
+            navigate("/dashboard");
+          })
+      })
+      .catch(error => { //error message
+        setErrorMessage(error.toString())
       })
   };
 
@@ -113,6 +122,7 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
+            { errorMessage && <Alert severity="error">{errorMessage}</Alert> }
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/" variant="body2">

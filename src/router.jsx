@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     {
         path: "/logout",
         element: <Logout />,
-    },
+    }
 ]);
 
 export default router

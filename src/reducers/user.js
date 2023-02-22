@@ -1,7 +1,8 @@
-import { SET_USERS } from "../actions/types"
+import { SET_IS_LOGGED, SET_USERS } from "../actions/types"
 
 const initialState = {
-    users: []
+    users: [],
+    isLogged: undefined
 };
 
 export default function user(state = initialState, action) {
@@ -9,7 +10,9 @@ export default function user(state = initialState, action) {
 
   switch (type) {
     case SET_USERS:
-      return { users: payload.data.users }
+      return { ...state, users: payload.data.users }
+    case SET_IS_LOGGED:
+        return { ...state, isLogged: payload.data.isLogged }
     default:
       return state
   }

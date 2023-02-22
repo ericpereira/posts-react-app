@@ -24,12 +24,7 @@ import {
         return Promise.resolve();
       },
       (error) => {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+        const message = error?.response?.data?.error?.toString()
   
         dispatch({
           type: REGISTER_FAIL,
@@ -39,8 +34,10 @@ import {
           type: SET_MESSAGE,
           payload: message,
         });
+
+        throw Error(message)
   
-        return Promise.reject();
+        //return Promise.reject();
       }
     );
   };
@@ -56,13 +53,8 @@ import {
         return Promise.resolve();
       },
       (error) => {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-  
+        const message = error?.response?.data?.error?.toString()
+
         dispatch({
           type: LOGIN_FAIL,
         });
@@ -71,8 +63,10 @@ import {
           type: SET_MESSAGE,
           payload: message,
         });
+
+        throw Error(message)
   
-        return Promise.reject();
+        //return Promise.reject();
       }
     );
   };

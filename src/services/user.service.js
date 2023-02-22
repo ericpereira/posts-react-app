@@ -23,10 +23,12 @@ const getAllUsers = () => {
     return axios.get(API_URL + '/users', { headers: authHeader() });
 }
 
-export default {
+const UserService = {
   getPublicContent,
   getUserBoard,
   getModeratorBoard,
   getAdminBoard,
   getAllUsers
-};
+}
+
+export default UserService;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,6 +16,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { login } from '../actions/auth';
+import { Alert } from '@mui/material';
   
 
 function Copyright(props) {
@@ -38,6 +39,8 @@ export default function SignIn() {
 
   const [email, setEmail] = React.useState()
   const [password, setPassword] = React.useState()
+  const [errorMessage, setErrorMessage] = useState()
+
 
   const { isLoggedIn } = useSelector(state => state.auth);
 
@@ -59,10 +62,9 @@ export default function SignIn() {
     dispatch(login(email, password))
       .then(() => {
         navigate("/dashboard");
-        window.location.reload();
       })
-      .catch(() => {
-        
+      .catch((error) => {
+        setErrorMessage(error.toString())
       });
   };
 
@@ -125,6 +127,8 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+            { errorMessage && <Alert severity="error">{errorMessage}</Alert> }
+
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">

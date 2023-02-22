@@ -15,3 +15,14 @@ export function useGetUser(user_id) {
     const user = users?.filter(s => s.id === user_id)[0]
     return user
 }
+
+export function detectInvalidToken(navigate) {
+    const user = JSON.parse(localStorage.getItem('user'))
+    if(user){
+      let decodedToken= jwt_decode(user?.token)
+      let dateNow = new Date().getTime() / 1000
+      if(decodedToken.exp < dateNow){
+        navigate('/logout')
+      }
+    }
+}
